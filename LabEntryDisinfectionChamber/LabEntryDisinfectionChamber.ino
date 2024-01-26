@@ -9,9 +9,9 @@
 #define PIN 46 // pin for build in RGB LED on the board
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
 
-const char* ssid = "";
-const char* password = "";
-const char *MQTT_SERVER = ""; // your VM instance public IP address
+const char* ssid = "";    //add wifi ssid
+const char* password = "";    //add wifi password
+const char *MQTT_SERVER = ""; // your VM instance public IP address (external ip from GCP)
 const int MQTT_PORT = 1883;
 const char *MQTT_TOPIC = "iot"; // MQTT topic
 
@@ -95,8 +95,7 @@ bool ext_factor(float gasSensorVal, int tmpSensorVal){
   if(gasSensorVal >= 2000){
     ret = true;
   }
-  //Serial.println(gasSensorVal);
-
+  //Publish the Gas Sensor Value and Temperature Sensor Value
   char payload[50];
   sprintf(payload, "%.2f, %d", gasSensorVal, tmpSensorVal);
   client.publish(MQTT_TOPIC, payload);
